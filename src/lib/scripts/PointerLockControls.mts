@@ -24,6 +24,17 @@ export const mouse = {
     }
 }
 
+export const player = {
+
+    x: 0,
+    y: 4,
+    z: 5,
+    xv: 0,
+    yv: 0,
+    zv: 0
+
+}
+
 const _euler = new Euler( 0, 0, 0, 'YXZ' );
 const _vector = new Vector3();
 
@@ -95,26 +106,19 @@ class PointerLockControls extends EventDispatcher {
 
 	moveForward( distance ) {
 
-		// move forward parallel to the xz-plane
-		// assumes camera.up is y-up
+		_euler.setFromQuaternion( this.camera.quaternion );
 
-		const camera = this.camera;
-
-		_vector.setFromMatrixColumn( camera.matrix, 0 );
-
-		_vector.crossVectors( camera.up, _vector );
-
-		camera.position.addScaledVector( _vector, distance );
+        player.xv -= Math.sin(_euler.y) * distance;
+        player.zv -= Math.cos(_euler.y) * distance;
 
 	}
 
 	moveRight( distance ) {
 
-		const camera = this.camera;
+        _euler.setFromQuaternion( this.camera.quaternion );
 
-		_vector.setFromMatrixColumn( camera.matrix, 0 );
-
-		camera.position.addScaledVector( _vector, distance );
+        player.xv += Math.sin(_euler.y + Math.PI / 2) * distance;
+        player.zv += Math.cos(_euler.y + Math.PI / 2) * distance;
 
 	}
 
@@ -131,6 +135,14 @@ class PointerLockControls extends EventDispatcher {
 	}
 
     update() {
+
+        player.x += player.xv;
+        player.y += player.yv;
+        player.z += player.zv;
+
+        player.xv *= 0.94;
+        player.yv *= 0.94;
+        player.zv *= 0.94;
 
         mouse.x += mouse.xv;
         mouse.y += mouse.yv;
