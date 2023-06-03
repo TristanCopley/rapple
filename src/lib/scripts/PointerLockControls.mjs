@@ -13,15 +13,6 @@ export const mouse = {
         x_movement : 0,
         y_movement : 0,
     }
-} as {
-    x : number,
-    y : number,
-    xv: number,
-    yv: number,
-    last: {
-        x_movement : number,
-        y_movement : number,
-    }
 }
 
 export const player = {
@@ -104,24 +95,6 @@ class PointerLockControls extends EventDispatcher {
 
 	}
 
-	moveForward( distance ) {
-
-		_euler.setFromQuaternion( this.camera.quaternion );
-
-        player.xv -= Math.sin(_euler.y) * distance;
-        player.zv -= Math.cos(_euler.y) * distance;
-
-	}
-
-	moveRight( distance ) {
-
-        _euler.setFromQuaternion( this.camera.quaternion );
-
-        player.xv += Math.sin(_euler.y + Math.PI / 2) * distance;
-        player.zv += Math.cos(_euler.y + Math.PI / 2) * distance;
-
-	}
-
 	lock() {
 
 		this.domElement.requestPointerLock();
@@ -135,14 +108,6 @@ class PointerLockControls extends EventDispatcher {
 	}
 
     update() {
-
-        player.x += player.xv;
-        player.y += player.yv;
-        player.z += player.zv;
-
-        player.xv *= 0.94;
-        player.yv *= 0.94;
-        player.zv *= 0.94;
 
         mouse.x += mouse.xv;
         mouse.y += mouse.yv;
