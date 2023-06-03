@@ -1,7 +1,8 @@
 import * as THREE from 'three';
+import { entities, addEntity } from './objects.mjs';
 
 export class Player {
-    constructor(camera, input_controller, controls) {
+    constructor(scene, camera, input_controller, controls) {
 
         this._euler = new THREE.Euler( 0, 0, 0, 'YXZ' );
 
@@ -11,17 +12,20 @@ export class Player {
         this.input_controller = input_controller;
         this.controls = controls;
 
-        this.position = {
-            x: 0,
-            y: 0,
-            z: 0
-        }
+        const mesh = new THREE.Mesh(
+            new THREE.BoxGeometry(1, 3, 1),
+            new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+        );
 
-        this.velocity = {
-            x: 0,
-            y: 0,
-            z: 0
-        }
+        addEntity(scene, mesh, 'player', {
+            position: {
+                x: 0,
+                y: 2,
+                z: 0
+            },
+        });
+
+        this.player_entity = entities.get('player');
 
         this.hook = {
             position: {
@@ -52,39 +56,39 @@ export class Player {
 
         if (this.input_controller.pressed['forward']) {
 
-            this.velocity.x -= Math.sin(this._euler.y) * this.movement_speed * dt;
-            this.velocity.z -= Math.cos(this._euler.y) * this.movement_speed * dt;
+            this.player_entity.velocity.x -= Math.sin(this._euler.y) * this.movement_speed * dt;
+            this.player_entity.velocity.z -= Math.cos(this._euler.y) * this.movement_speed * dt;
 
         }
 
         if (this.input_controller.pressed['backward']) {
 
-            this.velocity.x += Math.sin(this._euler.y) * this.movement_speed * dt;
-            this.velocity.z += Math.cos(this._euler.y) * this.movement_speed * dt;
+            this.player_entity.velocity.x += Math.sin(this._euler.y) * this.movement_speed * dt;
+            this.player_entity.velocity.z += Math.cos(this._euler.y) * this.movement_speed * dt;
 
         }
 
         if (this.input_controller.pressed['left']) {
 
-            this.velocity.x -= Math.sin(this._euler.y + Math.PI / 2) * this.movement_speed * dt;
-            this.velocity.z -= Math.cos(this._euler.y + Math.PI / 2) * this.movement_speed * dt;
+            this.player_entity.velocity.x -= Math.sin(this._euler.y + Math.PI / 2) * this.movement_speed * dt;
+            this.player_entity.velocity.z -= Math.cos(this._euler.y + Math.PI / 2) * this.movement_speed * dt;
 
         }
 
         if (this.input_controller.pressed['right']) {
 
-            this.velocity.x += Math.sin(this._euler.y + Math.PI / 2) * this.movement_speed * dt;
-            this.velocity.z += Math.cos(this._euler.y + Math.PI / 2) * this.movement_speed * dt;
+            this.player_entity.velocity.x += Math.sin(this._euler.y + Math.PI / 2) * this.movement_speed * dt;
+            this.player_entity.velocity.z += Math.cos(this._euler.y + Math.PI / 2) * this.movement_speed * dt;
 
         }
 
-        this.velocity.x *= 0.94;
-        this.velocity.y *= 0.94;
-        this.velocity.z *= 0.94;
+        // this.player_entity.velocity.x *= 0.94;
+        // this.player_entity.velocity.y *= 0.94;
+        // this.player_entity.velocity.z *= 0.94;
 
-        this.position.x += this.velocity.x * dt;
-        this.position.y += this.velocity.y * dt;
-        this.position.z += this.velocity.z * dt;
+        // this.player_entity.position.x += this.player_entity.velocity.x * dt;
+        // this.player_entity.position.y += this.player_entity.velocity.y * dt;
+        // this.player_entity.position.z += this.player_entity.velocity.z * dt;
 
     }
 }

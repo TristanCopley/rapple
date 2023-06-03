@@ -15,20 +15,7 @@ export const mouse = {
     }
 }
 
-export const player = {
-
-    x: 0,
-    y: 4,
-    z: 5,
-    xv: 0,
-    yv: 0,
-    zv: 0
-
-}
-
 const _euler = new Euler( 0, 0, 0, 'YXZ' );
-const _vector = new Vector3();
-
 const _changeEvent = { type: 'change' };
 const _lockEvent = { type: 'lock' };
 const _unlockEvent = { type: 'unlock' };

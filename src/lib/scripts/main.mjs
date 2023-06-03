@@ -52,7 +52,7 @@ export const Main = (canvas) => {
 
     const controls = new PointerLockControls(camera, canvas);
     const input_controller = new Input_Controller();
-    const player = new Player(camera, input_controller, controls);
+    const player = new Player(scene, camera, input_controller, controls);
 
     input_controller.set_keybinds({
         'forward': ['w'],
@@ -79,7 +79,7 @@ export const Main = (canvas) => {
 
         player.update(dt);
 
-        camera.position.set(player.position.x, player.position.y + 2, player.position.z);
+        camera.position.set(player.player_entity.position.x, player.player_entity.position.y + 4, player.player_entity.position.z);
         
 
         let entries = Array.from(entities.keys());
@@ -191,7 +191,7 @@ export const Main = (canvas) => {
 
                         // Check z-axis
                         testbbox.setFromObject(entity2.mesh);
-                        testbbox.translate(new THREE.Vector3(-entity1.velocity.x * dt, -entity1.velocity.y * dt, 0));
+                        testbbox.translate(new THREE.Vector3(-entity2.velocity.x * dt, -entity2.velocity.y * dt, 0));
                         
                         if (testbbox.intersectsBox(entity1.bbox)) {
 
